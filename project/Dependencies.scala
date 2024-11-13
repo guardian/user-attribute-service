@@ -19,7 +19,7 @@ object Dependencies {
   val awsSQS = "software.amazon.awssdk" % "sqs" % awsClientV2Version
   val awsCloudWatch = "com.amazonaws" % "aws-java-sdk-cloudwatch" % awsClientVersion
   val scalaz = "org.scalaz" %% "scalaz-core" % "7.3.8"
-  val anorm = "org.playframework.anorm" %% "anorm" % "2.7.0"
+  val anorm = "org.playframework.anorm" %% "anorm" % "2.8.0"
   val netty = "io.netty" % "netty-codec" % "4.1.115.Final"
   val nettyHttp = "io.netty" % "netty-codec-http" % "4.1.115.Final"
   val scalaXml = "org.scala-lang.modules" %% "scala-xml" % "2.1.0"
