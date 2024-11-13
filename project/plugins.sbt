@@ -9,7 +9,7 @@ addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.10.4")
 
 addSbtPlugin("com.gu" % "sbt-riffraff-artifact" % "1.1.18")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.0")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.2")
 
 addSbtPlugin("org.jmotor.sbt" % "sbt-dependency-updates" % "1.2.9")
 
