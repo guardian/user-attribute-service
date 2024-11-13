@@ -28,7 +28,7 @@ object Dependencies {
   val logback = "ch.qos.logback" % "logback-classic" % "1.5.12"
 
   val jacksonVersion = "2.15.4"
-  val jacksonDatabindVersion = "2.15.0"
+  val jacksonDatabindVersion = "2.15.4"
   val akkaHttpCore = "com.typesafe.akka" %% "akka-http-core" % "10.2.9"
   val oktaJwtVerifierVersion = "0.5.7"
   val jackson = Seq(
