@@ -22,7 +22,7 @@ object Dependencies {
   val anorm = "org.playframework.anorm" %% "anorm" % "2.8.0"
   val netty = "io.netty" % "netty-codec" % "4.1.115.Final"
   val nettyHttp = "io.netty" % "netty-codec-http" % "4.1.115.Final"
-  val scalaXml = "org.scala-lang.modules" %% "scala-xml" % "2.1.0"
+  val scalaXml = "org.scala-lang.modules" %% "scala-xml" % "2.3.0"
   val mockServer = "org.mock-server" % "mockserver-netty" % "5.15.0" % Test
   val mockitoScala = "org.mockito" %% "mockito-scala" % "1.17.37" % Test
   val logback = "ch.qos.logback" % "logback-classic" % "1.5.12"
