@@ -25,7 +25,7 @@ object Dependencies {
   val scalaXml = "org.scala-lang.modules" %% "scala-xml" % "2.1.0"
   val mockServer = "org.mock-server" % "mockserver-netty" % "5.14.0" % Test
   val mockitoScala = "org.mockito" %% "mockito-scala" % "1.17.14" % Test
-  val logback = "ch.qos.logback" % "logback-classic" % "1.4.14"
+  val logback = "ch.qos.logback" % "logback-classic" % "1.5.12"
 
   val jacksonVersion = "2.15.0"
   val jacksonDatabindVersion = "2.15.0"
