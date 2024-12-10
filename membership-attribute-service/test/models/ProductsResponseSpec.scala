@@ -148,6 +148,7 @@ class ProductsResponseSpec extends Specification with SafeLogging {
           |      "nextPaymentPrice" : 2500,
           |      "nextPaymentDate" : "2024-06-15",
           |      "potentialCancellationDate" : "2024-06-15",
+          |      "inDiscountPeriod": false,
           |      "lastPaymentDate" : "2024-05-15",
           |      "chargedThroughDate" : "2024-06-15",
           |      "renewalDate" : "2025-05-15",
