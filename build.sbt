@@ -24,7 +24,7 @@ def buildInfoSettings = Seq(
 val commonSettings = Seq(
   organization := "com.gu",
   version := appVersion,
-  scalaVersion := "2.13.12",
+  scalaVersion := "2.13.15",
   Compile / doc / sources := Seq.empty,
   Compile / packageDoc / publishArtifact := false,
   Global / parallelExecution := false,
@@ -58,7 +58,7 @@ val `membership-common` =
       Seq(
         name := "membership-common",
         organization := "com.gu",
-        scalaVersion := "2.13.12",
+        scalaVersion := "2.13.15",
         scalacOptions := Seq("-feature", "-deprecation"),
         crossScalaVersions := Seq(scalaVersion.value),
         Compile / doc / sources := List(), // no docs please
