@@ -117,7 +117,7 @@ class AccountDetailsFromZuora(
         case Product.GuardianPatron => true
         case Product.Contribution => true
         case Product.Discounts => false
-        case Product.GuardianLight => true
+        case Product.GuardianAdLite => true
       })
       filtered = applyFilter(filter, subsWithRecognisedProducts, catalog)
     } yield filtered
@@ -224,7 +224,7 @@ class AccountDetailsFromZuora(
       case Product.Digipack => requestedProductType == "Digipack" || requestedProductTypeIsContentSubscription
       case Product.SupporterPlus => requestedProductType == "SupporterPlus" || requestedProductTypeIsContentSubscription
       case Product.TierThree => requestedProductType == "TierThree" || requestedProductTypeIsContentSubscription
-      case Product.GuardianLight => requestedProductType == "GuardianLight" || requestedProductTypeIsContentSubscription
+      case Product.GuardianAdLite => requestedProductType == "GuardianAdLite" || requestedProductTypeIsContentSubscription
       case _ => requestedProductType == product.name // fallback
     }
   }

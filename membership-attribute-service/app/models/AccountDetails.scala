@@ -217,7 +217,7 @@ object AccountDetails {
     case Product.Digipack => "subscriptions"
     case Product.SupporterPlus => "recurringSupport"
     case Product.TierThree => "recurringSupport"
-    case Product.GuardianLight => "subscriptions"
+    case Product.GuardianAdLite => "subscriptions"
     case Product.GuardianPatron => "subscriptions"
     case Product.Contribution => "recurringSupport"
     case Product.Membership => "membership"
@@ -235,7 +235,7 @@ class FilterPlans(subscription: Subscription, catalog: Catalog)(implicit val log
       case Product.GuardianPatron => true
       case Product.Contribution => true
       case Product.Discounts => false
-      case Product.GuardianLight => true
+      case Product.GuardianAdLite => true
     })
     .sortBy(_.effectiveStartDate.toDate)
   val currentPlans: List[RatePlan] = sortedPlans.filter(plan => !plan.effectiveStartDate.isAfter(now) && plan.effectiveEndDate.isAfter(now))

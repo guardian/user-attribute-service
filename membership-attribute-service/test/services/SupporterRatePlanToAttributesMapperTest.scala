@@ -346,7 +346,7 @@ class SupporterRatePlanToAttributesMapperTest extends Specification {
           OneOffContributionDate = None,
           MembershipJoinDate = None,
           SupporterPlusExpiryDate = None,
-          GuardianLightExpiryDate = None,
+          GuardianAdLiteExpiryDate = None,
           DigitalSubscriptionExpiryDate = Some(termEndDate),
           PaperSubscriptionExpiryDate = Some(termEndDate),
           GuardianWeeklySubscriptionExpiryDate = Some(termEndDate),

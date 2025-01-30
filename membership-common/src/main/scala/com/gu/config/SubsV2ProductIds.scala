@@ -22,7 +22,7 @@ object SubsV2ProductIds {
     ProductId(config.getString("subscriptions.digipack")) -> Digipack,
     ProductId(config.getString("subscriptions.supporterPlus")) -> SupporterPlus,
     ProductId(config.getString("subscriptions.tierThree")) -> TierThree,
-    ProductId(config.getString("subscriptions.guardianLight")) -> GuardianLight,
+    ProductId(config.getString("subscriptions.guardianAdLite")) -> GuardianAdLite,
     ProductId(config.getString("membership.supporter")) -> Membership,
     ProductId(config.getString("membership.partner")) -> Membership,
     ProductId(config.getString("membership.patron")) -> Membership,
