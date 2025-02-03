@@ -27,7 +27,7 @@ object TestCatalog {
   val contributorPrpId = ProductRatePlanId("asdfasdf")
   val supporterPlusPrpId = ProductRatePlanId("8ad08cbd8586721c01858804e3275376")
   val tierThreePrpId = ProductRatePlanId("8ad097b48ff26452019001cebac92376")
-  val guardianLightPrpId = ProductRatePlanId("8a12831492c341730192dd1c39207038")
+  val guardianAdLitePrpId = ProductRatePlanId("8a12831492c341730192dd1c39207038")
   val digipackPrpId = ProductRatePlanId("2c92c0f94f2acf73014f2c908f671591")
   val gw6for6PrpId = ProductRatePlanId("2c92c0f965f212210165f69b94c92d66")
   val homeDeliveryPrpId = ProductRatePlanId("homedelPRPid")
@@ -41,7 +41,7 @@ object TestCatalog {
     val sPluscontributionChargeId: ProductRatePlanChargeId = ProductRatePlanChargeId("asdasdasdcon")
     val tierThreeDigitalId = ProductRatePlanChargeId("tierthreedigiPRPCid")
     val tierThreeGWId = ProductRatePlanChargeId("tierthreeGWprpcID")
-    val guardianLightChargeId = ProductRatePlanChargeId("8a129b7892c35f170192dd3225572b97")
+    val guardianAdLiteChargeId = ProductRatePlanChargeId("8a129b7892c35f170192dd3225572b97")
   }
   import ProductRatePlanChargeIds._
 
@@ -89,10 +89,10 @@ object TestCatalog {
       ),
       Some(ProductType("type")),
     ),
-    guardianLightPrpId -> ProductRatePlan(
-      guardianLightPrpId,
-      "Guardian Light",
-      idForProduct(Product.GuardianLight),
+    guardianAdLitePrpId -> ProductRatePlan(
+      guardianAdLitePrpId,
+      "Guardian Ad-Lite",
+      idForProduct(Product.GuardianAdLite),
       Map(),
       Some(ProductType("type")),
     ),
