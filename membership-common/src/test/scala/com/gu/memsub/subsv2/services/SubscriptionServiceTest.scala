@@ -8,6 +8,8 @@ import com.gu.memsub
 import com.gu.memsub.Subscription.{Id => _, _}
 import com.gu.memsub.subsv2._
 import com.gu.memsub.subsv2.reads.PlanWithCreditsTestData
+import com.gu.memsub.subsv2.reads.SubJsonReads.subscriptionReads
+import com.gu.memsub.subsv2.services.SubscriptionServiceTest.adLiteCancelledInTrial
 import com.gu.memsub.{Subscription => _, _}
 import com.gu.monitoring.SafeLogger
 import com.gu.okhttp.RequestRunners.HttpClient
@@ -18,6 +20,7 @@ import io.lemonlabs.uri.typesafe.dsl._
 import okhttp3._
 import org.joda.time.LocalDate
 import org.specs2.mutable.Specification
+import play.api.libs.json.Json
 import scalaz.Id._
 import scalaz.{-\/, NonEmptyList, \/, \/-}
 import utils.Resource
@@ -262,6 +265,13 @@ class SubscriptionServiceTest extends Specification {
       GetCurrentPlans.currentPlans(digipackSub, referenceDate, catalog).map(_.head.id.get) mustEqual \/-("idDigipack")
     }
 
+    "if you cancel an Ad-Lite in the trial period, tell you you're not a subscriber" in {
+      val now = new LocalDate(2025, 2, 13) // still in trial
+      val adLite = subscriptionReads.reads(Json.parse(adLiteCancelledInTrial)).get
+      val actual = GetCurrentPlans.currentPlans(adLite, now, catalog)
+      actual mustEqual (-\/("Discarded 71a1e04469b94df9a384f4b1d2e15d71 because it has a paid plan which has ended"))
+    }
+
   }
 
   "Subscription service" should {
@@ -375,4 +385,263 @@ class SubscriptionServiceTest extends Specification {
       )
     }
   }
+}
+
+object SubscriptionServiceTest {
+  val adLiteCancelledInTrial =
+    """{
+      |    "success": true,
+      |    "id": "71a1e04469b94df9a384f4b1d2d75d6f",
+      |    "accountId": "8ad083f094df87910194f4ab34952c25",
+      |    "accountNumber": "A00975920",
+      |    "accountName": "001UD00000EU61XYAT",
+      |    "invoiceOwnerAccountId": "8ad083f094df87910194f4ab34952c25",
+      |    "invoiceOwnerAccountNumber": "A00975920",
+      |    "invoiceOwnerAccountName": "001UD00000EU61XYAT",
+      |    "subscriptionNumber": "A-S00959362",
+      |    "version": 2,
+      |    "revision": "2.0",
+      |    "termType": "TERMED",
+      |    "invoiceSeparately": false,
+      |    "contractEffectiveDate": "2025-02-11",
+      |    "serviceActivationDate": "2025-02-11",
+      |    "customerAcceptanceDate": "2025-02-26",
+      |    "subscriptionStartDate": "2025-02-11",
+      |    "subscriptionEndDate": "2025-02-11",
+      |    "lastBookingDate": "2025-02-11",
+      |    "termStartDate": "2025-02-11",
+      |    "termEndDate": "2025-02-11",
+      |    "initialTerm": 12,
+      |    "initialTermPeriodType": "Month",
+      |    "currentTerm": 12,
+      |    "currentTermPeriodType": "Month",
+      |    "autoRenew": true,
+      |    "renewalSetting": "RENEW_WITH_SPECIFIC_TERM",
+      |    "renewalTerm": 12,
+      |    "renewalTermPeriodType": "Month",
+      |    "currency": "GBP",
+      |    "contractedMrr": 5.00,
+      |    "totalContractedValue": 0.00,
+      |    "notes": null,
+      |    "status": "Cancelled",
+      |    "TrialPeriodPrice__c": null,
+      |    "CanadaHandDelivery__c": null,
+      |    "AcquisitionMetadata__c": null,
+      |    "QuoteNumber__QT": null,
+      |    "GifteeIdentityId__c": null,
+      |    "OpportunityName__QT": null,
+      |    "LastQSSPaymentDate__c": null,
+      |    "GiftNotificationEmailDate__c": null,
+      |    "Gift_Subscription__c": "No",
+      |    "TrialPeriodDays__c": null,
+      |    "CreatedRequestId__c": "dcf9af0a-415d-ff99-0000-000000003881",
+      |    "ActivationDate3__c": null,
+      |    "AcquisitionSource__c": null,
+      |    "CreatedByCSR__c": null,
+      |    "CASSubscriberID__c": null,
+      |    "LastPriceChangeDate__c": null,
+      |    "InitialPromotionCode__c": null,
+      |    "Suspended__c": "false",
+      |    "CpqBundleJsonId__QT": null,
+      |    "RedemptionCode__c": null,
+      |    "QuoteType__QT": null,
+      |    "GiftRedemptionDate__c": null,
+      |    "QuoteBusinessType__QT": null,
+      |    "SupplierCode__c": null,
+      |    "legacy_cat__c": null,
+      |    "DeliveryAgent__c": null,
+      |    "AcquisitionCase__c": null,
+      |    "ReaderType__c": "Direct",
+      |    "ActivationDate__c": null,
+      |    "UserCancellationReason__c": "mma_support_another_way",
+      |    "SuspensionStatus__c": "Active",
+      |    "CardCountry__c": null,
+      |    "OpportunityCloseDate__QT": null,
+      |    "IPaddress__c": null,
+      |    "IPCountry__c": null,
+      |    "CancelledBy__c": null,
+      |    "dummy__c": null,
+      |    "PromotionCode__c": null,
+      |    "OriginalSubscriptionStartDate__c": null,
+      |    "LegacyContractStartDate__c": null,
+      |    "CancellationReason__c": "Customer",
+      |    "billToContact": {
+      |        "id": "8ad083f094df87910194f4ab34d62c28",
+      |        "address1": null,
+      |        "address2": null,
+      |        "city": null,
+      |        "country": "United Kingdom",
+      |        "county": null,
+      |        "fax": null,
+      |        "state": null,
+      |        "postalCode": null,
+      |        "firstName": "pp9trpqdowsgqlz2hsa",
+      |        "lastName": "pp9trpqdowsgqlz2hsa",
+      |        "nickname": null,
+      |        "workEmail": "john.duffell+pp9trpqdowsgqlz2hsa@guardian.co.uk",
+      |        "personalEmail": null,
+      |        "homePhone": null,
+      |        "mobilePhone": null,
+      |        "otherPhone": null,
+      |        "otherPhoneType": null,
+      |        "taxRegion": null,
+      |        "workPhone": null,
+      |        "contactDescription": null,
+      |        "Company_Name__c": null,
+      |        "SpecialDeliveryInstructions__c": null,
+      |        "Title__c": null,
+      |        "zipCode": null,
+      |        "accountId": "8ad083f094df87910194f4ab34952c25",
+      |        "accountNumber": "A00975920"
+      |    },
+      |    "paymentTerm": null,
+      |    "invoiceTemplateId": null,
+      |    "invoiceTemplateName": null,
+      |    "sequenceSetId": null,
+      |    "sequenceSetName": null,
+      |    "soldToContact": {
+      |        "id": "8ad083f094df87910194f4ab34d62c28",
+      |        "address1": null,
+      |        "address2": null,
+      |        "city": null,
+      |        "country": "United Kingdom",
+      |        "county": null,
+      |        "fax": null,
+      |        "state": null,
+      |        "postalCode": null,
+      |        "firstName": "pp9trpqdowsgqlz2hsa",
+      |        "lastName": "pp9trpqdowsgqlz2hsa",
+      |        "nickname": null,
+      |        "workEmail": "john.duffell+pp9trpqdowsgqlz2hsa@guardian.co.uk",
+      |        "personalEmail": null,
+      |        "homePhone": null,
+      |        "mobilePhone": null,
+      |        "otherPhone": null,
+      |        "otherPhoneType": null,
+      |        "taxRegion": null,
+      |        "workPhone": null,
+      |        "contactDescription": null,
+      |        "Company_Name__c": null,
+      |        "SpecialDeliveryInstructions__c": null,
+      |        "Title__c": null,
+      |        "zipCode": null,
+      |        "accountId": "8ad083f094df87910194f4ab34952c25",
+      |        "accountNumber": "A00975920"
+      |    },
+      |    "isLatestVersion": true,
+      |    "cancelReason": null,
+      |    "ratePlans": [
+      |        {
+      |            "id": "71a1e04469b94df9a384f4b1d2e15d71",
+      |            "productId": "8ad0869c9444afc7019446c5eaf33503",
+      |            "productName": "Guardian Ad-Lite",
+      |            "productSku": "SKU-00000082",
+      |            "productRatePlanId": "71a1bebf6be9444afad446c5ebaf0019",
+      |            "productRatePlanNumber": null,
+      |            "ratePlanName": "Guardian Ad-Lite Monthly",
+      |            "subscriptionProductFeatures": [],
+      |            "externallyManagedPlanId": null,
+      |            "subscriptionRatePlanNumber": "SRP-01634051",
+      |            "isFromExternalCatalog": false,
+      |            "ratePlanCharges": [
+      |                {
+      |                    "id": "71a1e04469b94df9a384f4b1d2e75d73",
+      |                    "originalChargeId": "71a1b9d74f794df87704f4ab35539cf4",
+      |                    "productRatePlanChargeId": "71a1bebf6be9444afad446c5ec26001a",
+      |                    "number": "C-01675716",
+      |                    "name": "Guardian Ad-Lite",
+      |                    "productRatePlanChargeNumber": null,
+      |                    "type": "Recurring",
+      |                    "model": "FlatFee",
+      |                    "originalListPrice": null,
+      |                    "uom": null,
+      |                    "version": 2,
+      |                    "subscriptionChargeDeliverySchedule": null,
+      |                    "numberOfDeliveries": null,
+      |                    "priceChangeOption": "NoChange",
+      |                    "priceIncreasePercentage": null,
+      |                    "currency": "GBP",
+      |                    "chargeModelConfiguration": null,
+      |                    "inputArgumentId": null,
+      |                    "includedUnits": null,
+      |                    "overagePrice": null,
+      |                    "applyDiscountTo": null,
+      |                    "discountLevel": null,
+      |                    "discountClass": null,
+      |                    "applyToBillingPeriodPartially": false,
+      |                    "billingDay": "ChargeTriggerDay",
+      |                    "listPriceBase": "Per_Billing_Period",
+      |                    "specificListPriceBase": null,
+      |                    "billingPeriod": "Month",
+      |                    "specificBillingPeriod": null,
+      |                    "billingTiming": "IN_ADVANCE",
+      |                    "ratingGroup": null,
+      |                    "billingPeriodAlignment": "AlignToCharge",
+      |                    "quantity": 1.000000000,
+      |                    "prorationOption": null,
+      |                    "isStackedDiscount": false,
+      |                    "reflectDiscountInNetAmount": false,
+      |                    "smoothingModel": null,
+      |                    "numberOfPeriods": null,
+      |                    "overageCalculationOption": null,
+      |                    "overageUnusedUnitsCreditOption": null,
+      |                    "unusedUnitsCreditRates": null,
+      |                    "usageRecordRatingOption": null,
+      |                    "segment": 1,
+      |                    "effectiveStartDate": "2025-02-26",
+      |                    "effectiveEndDate": "2025-02-26",
+      |                    "processedThroughDate": null,
+      |                    "chargedThroughDate": null,
+      |                    "done": false,
+      |                    "triggerDate": null,
+      |                    "triggerEvent": "CustomerAcceptance",
+      |                    "endDateCondition": "Subscription_End",
+      |                    "upToPeriodsType": null,
+      |                    "upToPeriods": null,
+      |                    "specificEndDate": null,
+      |                    "mrr": 5.000000000,
+      |                    "dmrc": 0.000000000,
+      |                    "tcv": 0.000000000,
+      |                    "dtcv": -57.580645160,
+      |                    "originalOrderDate": "2025-02-11",
+      |                    "amendedByOrderOn": "2025-02-11",
+      |                    "description": "",
+      |                    "HolidayStart__c": null,
+      |                    "HolidayEnd__c": null,
+      |                    "ForceSync__c": null,
+      |                    "salesPrice": 5.000000000,
+      |                    "taxable": null,
+      |                    "taxCode": null,
+      |                    "taxMode": null,
+      |                    "tiers": null,
+      |                    "discountApplyDetails": null,
+      |                    "pricingSummary": "GBP5",
+      |                    "price": 5.000000000,
+      |                    "discountAmount": null,
+      |                    "discountPercentage": null
+      |                }
+      |            ]
+      |        }
+      |    ],
+      |    "orderNumber": "O-00994630",
+      |    "externallyManagedBy": null,
+      |    "statusHistory": [
+      |        {
+      |            "startDate": "2025-02-11",
+      |            "endDate": "2025-02-11",
+      |            "status": "Active"
+      |        },
+      |        {
+      |            "startDate": "2025-02-11",
+      |            "endDate": null,
+      |            "status": "Cancelled"
+      |        }
+      |    ],
+      |    "invoiceGroupNumber": null,
+      |    "createTime": "2025-02-11 11:08:02",
+      |    "updateTime": "2025-02-11 11:08:02",
+      |    "scheduledCancelDate": null,
+      |    "scheduledSuspendDate": null,
+      |    "scheduledResumeDate": null
+      |}""".stripMargin
 }

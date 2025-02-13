@@ -76,7 +76,10 @@ object GetCurrentPlans {
       else if (product == Product.Digipack && plan.billingPeriod.toOption.contains(OneTimeChargeBillingPeriod))
         digipackGiftEnded(_ => sub.termEndDate >= dateToCheck)
       else
-        paidPlanEnded(_ => plan.effectiveEndDate >= dateToCheck)
+        paidPlanEnded(_ => {
+          val inGracePeriodAndNotCancelled = plan.effectiveEndDate == dateToCheck && !sub.isCancelled
+          plan.effectiveEndDate > dateToCheck || inGracePeriodAndNotCancelled
+        })
     }
 
     Sequence(
